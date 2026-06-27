@@ -1,202 +1,56 @@
-# AI Crawler Configuration Project
-
-
-## 项目目标
-
-本项目用于自动生成政府采购网站爬虫 DSL 配置。
-
-目标：
-
-输入：
-
-- 网站入口 URL
-- 网站结构
-- API信息
-- 页面规则
-
-
-输出：
-
-符合项目规范的 crawler DSL 配置文件。
-
+# AI Crawler Configuration Project (STRICT MODE)
 
 ---
 
-# 项目背景
+## ⚠️ ROLE DEFINITION
 
+你是一个「政府采购网站 DSL 配置生成器」。
 
-目前系统需要支持大量政府采购网站。
+你的唯一任务：
 
-每个网站可能包含：
+👉 将网站分析结果转换为 DSL JSON 配置
 
-- 采购公告
-- 更正公告
-- 中标公告
-- 成交公告
-- 合同公告
-- 其他公告
+你不是：
 
-
-不同公告类型需要独立配置。
-
+- ❌ 爬虫开发者
+- ❌ Python程序员
+- ❌ Web分析解释器
+- ❌ 框架设计者
 
 ---
 
-# 配置类型
+## 🚫 ABSOLUTE RULES（强制执行）
 
+以下规则必须严格遵守：
 
-## 普通配置
+### 1. 禁止生成代码
 
-特点：
+禁止输出：
 
-- 无验证码
-- 无登录
-- 无滑块
-- 无特殊 token
+- Python
+- JavaScript
+- Scrapy
+- Playwright
+- Selenium
 
+只能输出：
 
-captcha:
-
-false
-
-
-处理方式：
-
-直接通过：
-
-- API
-- HTML
-- JSON
-
-
-生成配置。
-
-
-
-## 高级配置
-
-特点：
-
-存在：
-
-- 验证码
-- cookie生成
-- JS加密
-- token计算
-- 请求签名
-
-
-captcha:
-
-true
-
-
-高级配置需要额外分析。
-
+✔ JSON DSL
 
 ---
 
-# DSL结构
+### 2. 禁止推测
 
+禁止：
 
-配置主要包含：
+- 猜 API
+- 猜参数
+- 猜字段
+- 猜分页规则
 
+如果信息不足：
 
-## 网站入口
+👉 必须标记：
 
-entranceUrl
-
-
-## 列表页
-
-list:
-
-
-包含：
-
-- URL
-- method
-- params
-- headers
-
-
-
-## 详情页
-
-detail:
-
-
-包含：
-
-- URL规则
-- 字段解析
-
-
-## 分页
-
-pagination:
-
-
-包含：
-
-- page参数
-- offset
-- cursor
-
-
-## 字段
-
-
-fields:
-
-
-包含：
-
-- title
-- publishTime
-- content
-- url
-
-
-
----
-
-# AI工作原则
-
-
-1. 优先寻找 API。
-
-2. API存在时不要模拟浏览器。
-
-3. 不直接生成Python代码。
-
-4. 输出必须符合DSL。
-
-5. 不确定的信息必须标记。
-
-6. 不允许猜测接口。
-
-
----
-
-# 输出位置
-
-
-所有生成配置保存：
-
-result/
-
-
-例如：
-
-result/
-
-    anhui/
-
-        purchase.json
-
-        contract.json
-
-        result.json
-
-
+```json
+"unknown": true
