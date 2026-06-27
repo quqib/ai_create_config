@@ -1,0 +1,327 @@
+{
+    "name": "中华人民共和国科学技术部-通知通告", //网站栏目，必填，格式：网站名-导航栏路径，与配置记录表review_name一致
+    "host":"XXX.XX.cn", //网站域名，必填
+  "source_site":"中华人民共和国科学技术部",  //来源网站，必填，与组织配置表org_name一致
+           "industry": "政府采购",  //业务类型，必填，网站招投标什么样就直接赋值，比如政府采购、工程建设
+           "notice_type": "招标计划",  //公告类型，必填，网站什么样就直接赋值，比如招标计划、招标公告
+  "is_proxy":0, //是否使用代理，1表示使用，0表示不使用，默认1
+    "list": { //列表提取
+  "mode": "REQUESTS", //请求模式，REUQESTS表示静态请求，SELENIUM表示模拟浏览器
+  "method": "GET", //请求方法
+     "isdump":False, //POST请求负载数据是否转换成 JSON 格式的字符串，默认不配置该字段（即转换成JSON字符串）
+     "isverify":False, //是否关闭 SSL 证书验证，默认不配置该字段（即不关闭）
+     "isredirect":False, //是否requests 请求自动跟随重定向，默认不配置该字段（即可以重定向）
+    "formdata":["xxxx"], //表示存在xxxx字段需要使用files参数请求
+     "page":{ //如果存在列表发生请求方法改变（如get请求变post）且不返回页码，需要增加一个请求，只解析并获取页码，翻页参数针对该请求响应解析
+        "mode": "REQUESTS",
+        "method": "GET",
+        "url":"https://cccc.cc.xxx.cn/ssss", //请求页码链接
+     },
+     decrypt":[   //按列表顺序进行解密处理，支持多种解密处理方式，type是解密类型，Base64（Base64解码 参数encode：解码类型，默认utf-8）、URL（URL解码）、REPLACE(字符串子字符串正则替换，参数origin：替换原始字符串，dest：替换目标字符串)、TRUNCATE（截断字符串，参数start：起始索引（包含），end：截至索引（不包含））、AES（AES 解密，参数key: 密钥字符串、mode: 模式、padding: 填充方式、iv: 偏移量）、RSA（RRSA 私钥解密，参数pri_key: RSA私钥完整字符串、adding: 填充模式）
+     ],
+     encrypt":[   //按列表顺序进行加密处理，支持多种加密处理方式，type是加密类型，MD5（md5加密，参数salt：盐值）、SHA（sha系列加密，参数algorithm：算法，sha1 / sha256 / sha512、salt: 盐值），HMAC-SHA256（hmac带密钥加密，key: 密钥）、Base64（Base64编码 参数encode：编码类型，默认utf-8）、URL（URL编码）、REPLACE(字符串子字符串正则替换，参数origin：替换原始字符串，dest：替换目标字符串)、TRUNCATE（截断字符串，参数start：起始索引（包含），end：截至索引（不包含））、AES（AES 加密，参数key: 密钥字符串、mode: 模式、padding: 填充方式、iv: 偏移量）、RSA（RSA 公钥加密，参数pub_key: RSA公钥完整字符串、adding: 填充模式）
+     ],
+    "headers": {
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+      "Accept-Encoding": "gzip, deflate, br, zstd",
+      "Accept-Language": "zh-CN,zh;q=0.9",
+      "Host": "ggzy.shenyang.gov.cn",
+      "Sec-Fetch-Dest": "document",
+      "Sec-Fetch-Mode": "navigate",
+      "Sec-Fetch-Site": "none",
+      "Sec-Fetch-User": "?1",
+      "Upgrade-Insecure-Requests": "1",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+      "sec-ch-ua-mobile": "?0",
+      "sec-ch-ua-platform": "\"Windows\""
+    },
+  "fields": {  //字段名可增删，但是需要同步给汪盼和业务相关人
+    "title": {   //字段提取，公告标题，字段名不可变，不可为空
+      "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+      "value": "//ul[@class='info_list2']/li/a/textall()", //提取表达式， textall()方法表示提取一个元素下所有文本且遇到<p>, <div>, <br>, <h1~h6>, <li>自动换行，但提取表达式不能是联合多表达式（即不能包含多个xpath表达式），如//a/textall() 即表示a标签下的所有子节点文本。
+      "regex":"(\d+-\d+-\d+)", //提取结果后进一步进行正则匹配,，如果匹配不到，则返回原值
+      },
+    "url": {   //字段提取方式，公告详情可访问链接（一般指浏览器导航栏URL），字段名不可变，不可为空
+      "type": "xpath",
+      "value": "//ul[@class='info_list2']/li",
+      "jsonpath": "$.[*].title", //提取结果后进一步进行jsonpath提取
+        "decrypt":[   //提取结果后进一步按列表顺序进行解密处理，支持多种解密处理方式，type是解密类型，Base64（Base64解码, 参数encode：编码类型，默认utf-8）、URL（URL解码）、REPLACE(字符串子字符串替换，参数origin：替换原始字符串，dest：替换目标字符串)、TRUNCATE（截断字符串，参数start：起始索引（包含），end：截至索引（不包含））、AES（AES 解密，参数key: 密钥字符串、mode: 模式、padding: 填充方式、iv: 偏移量）、RSA（RRSA 私钥解密，参数pri_key: RSA私钥完整字符串、adding: 填充模式）
+        ],
+        "encrypt": [ //提取结果后进一步按列表顺序进行加密处理，支持多种加密处理方式，type是加密类型，MD5（md5加密，参数salt：盐值）、SHA（sha系列加密，参数algorithm：算法，sha1 / sha256 / sha512、salt: 盐值），HMAC-SHA256（hmac带密钥加密，key: 密钥）、Base64（Base64编码 参数encode：编码类型，默认utf-8）、URL（URL编码）、REPLACE(字符串子字符串替换，参数origin：替换原始字符串，dest：替换目标字符串)、TRUNCATE（截断字符串，参数start：起始索引（包含），end：截至索引（不包含））、AES（AES 加密，参数key: 密钥字符串、mode: 模式、padding: 填充方式、iv: 偏移量）、RSA（RSA 公钥加密，参数pub_key: RSA公钥完整字符串、adding: 填充模式）
+        {
+            "type": "aes",  //表示加密类型
+            "key": "qnbyzzwmdgghmcnm", //表示密钥
+            "mode": "ecb", // 加密模式
+            "padding": "pkcs7" //填充方式
+
+        }, {
+            "type": "replace", //表示加密类型
+            "origin": "/", //替换原始字符串
+            "dest": "^", //替换目标字符串
+
+        }, {
+            "type": "truncate", //表示加密类型
+            "end": -2, //字符串截断停止索引
+
+        }],
+      "base": "https://cxcdfdc.cn/sdsdsd/" //补全URL，与提取到值进行拼接（会先过滤值以.或/符号开头的符号），base值必须以/结尾  ，注意base、replace、prepath三种处理顺序是base第一，prepath最后
+      },
+      "entrance_url": {   //字段提取方式, 公告详情请求入口URL，字段名不可变，不可为空
+        "type": "xpath",
+        "value": "//ul[@class='info_list2']/li",
+          "extra":{ //replace方法需要替换额外的变量（可能存在多个待替换的变量）,replace表达式里需要替换的部分要求这样写${变量名} 如${ggcode}
+            "ggcode":{ //字段提取，与replace表达式需要替换的变量保持一致
+                "type": "jsonpath",  //字段提取方式
+                "value": '$.result.list[*].ggCode', //提取表达式
+          }
+          }
+          "replace":"https://cxcdfdc.cn/sdsdsd?aa=xxx&bb=${url}"  //提取到的变量替换${url}，${url}默认固定写法，如果存在额外替换变量，在表达式里以${变量名}列举出来，与extra部分提取变量名一致
+        },
+    "publish_time": {  //字段提取，公告发文时间，字段名不可变, 要求转换成YYYYMmdd格式，不可为空
+      "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+      "value": "//ul[@class='info_list2']/li", //提取表达式
+      "format": "date" //表示转化成YYYYMmdd格式
+      },
+      "project_code": {   //字段提取，项目编号，字段名不可变, 默认不配置该参数，如果列表存在该内容则需要配置
+        "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+        "value": "//ul[@class='info_list2']/li/textall()", //提取表达式
+        "isclean": True, //表示是否清除空格
+        "isbalance": True, //表示是否检测括号对称性，去除第一个不符合对称性的括号及后面的字符串，支持() [] {} 【】 （）
+        "isnull": True  //表示该字段可以为空值
+        },
+    "industry": {}, //字段提取，业务类型，字段名不可变, 默认不配置该参数，如果列表存在该内容则需要配置
+    "notice_type": {},  //字段提取，公告类型，字段名不可变, 默认不配置该参数，如果列表存在该内容则需要配置
+  }
+    },
+    "detail": { //详情提取，如果详情链接是下载文件URL，程序会自动转成下载为附件
+    "mode": "REQUESTS", //请求模式，REUQESTS表示静态请求，SELENIUM表示模拟浏览器
+    "method": "GET", //请求方法
+    "checkselenium":["xxxx"], //表示URL存在XXX启动模拟浏览器请求，部分网站公告详情存在跳转其他网站，静态请求无法解决，则可启用该字段
+    "headers": {
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+      "Accept-Encoding": "gzip, deflate, br, zstd",
+      "Accept-Language": "zh-CN,zh;q=0.9",
+      "Host": "ggzy.shenyang.gov.cn",
+      "Sec-Fetch-Dest": "document",
+      "Sec-Fetch-Mode": "navigate",
+      "Sec-Fetch-Site": "none",
+      "Sec-Fetch-User": "?1",
+      "Upgrade-Insecure-Requests": "1",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+      "sec-ch-ua-mobile": "?0",
+      "token":"$exec(import base64\nfrom datetime import datetime\nnow = datetime.now()\nformatted_time = now.strftime(\"%Y-%m-%d %H:%M:%S\")\nfirst_encode = base64.b64encode(formatted_time.encode('utf-8')).decode('utf-8')\nresult = base64.b64encode(first_encode.encode('utf-8')).decode('utf-8'))", //表示参数自定义加密方法，$exec(CCCCCCCXXXXXXX)中CCCCCCCXXXXXXX表示python执行内容，返回结果的变量名必须为result或者请求头对应参数名，该功能只能在headers里，其中如果存在${xxx}则会变量值替换（xxx是请求头中前置自定义加密执行内容返回结果的变量名），请求头存在多个自定义加密建议返回结果的变量名使用请求头对应参数名
+      "sign":"$exec(import hashlib\ne='${result}'\ne+= '_/gpcms/rest/web/v2/info/selectInfoForIndex_bosssoft_platform_095285'\nsha1_hash = hashlib.sha1(e.encode('utf-8')).hexdigest()\nresult=hashlib.md5(sha1_hash.encode('utf-8')).hexdigest())" //表示参数自定义加密方法，$exec(CCCCCCCXXXXXXX)中CCCCCCCXXXXXXX表示python执行内容，返回结果的变量名必须为result或者请求头对应参数名，该功能只能在headers里，其中如果存在${xxx}则会变量值替换（xxx是请求头中前置自定义加密执行内容返回结果的变量名），请求头存在多个自定义加密建议返回结果的变量名使用请求头对应参数名
+      "sec-ch-ua-platform": "\"Windows\""
+    },
+    "404":"XXXX",  //对于不存在页面会跳转到网站默认404页面，则通过配置该字段判断，表示页面包含XXXX内容
+    "iframe":["//iframe[@id='iframe']","//iframe[@id='project-page']"], //列表形式，表示详情存在于iframe页面，需要给出嵌套的iframe的xpath提取表达式，多层嵌套就按顺序给表达式
+    "fields": { //字段名可增删，但是需要同步给汪盼和业务相关人
+    "content": {   //字段提取，详情内容，字段名不可变，不可为空
+      "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+      "value": "//ul[@class='info_list2']/li", //提取表达式
+      "request": {  //如果公告正文出现单独请求，则启用该功能，响应内容作为content字段提取值，附件提取可增加候选提取方式提取公告正文中附件
+                          "mode": "REQUESTS",
+                          "method": "GET",
+                          "headers": {
+                              "Accept": "application/json, text/plain, */*",
+                              "Accept-Language": "zh-CN,zh;q=0.9",
+                              "Content-Type": "application/json",
+                              "Referer": "https://gdgpo.czt.gd.gov.cn/gpfa-main-web/basic/frameNotice",
+                              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36",
+                          }
+                      },
+      },
+    "title": {   //字段提取，标题，字段名不可变，不可为空
+      "type": "jsonpath", //字段提取方式，xpath/jsonpath/regex
+      "value": "$.data.title" //提取表达式
+      "xpath":"//ul[@class='info_list2']/li/a",  //进一步xpath提取
+        "candidate":{  //候选字段提取，当详情进入其他站点或者原解析无法适配，可启用该功能
+        "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+        "value": "//ul[@class='info_list2']/li/a" //提取表达式
+        },
+      },
+      "publish_time": {   //字段提取，发文时间，字段名不可变, 要求转换成YYYYMmdd格式
+        "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+        "value": "//ul[@class='info_list2']/li", //提取表达式
+        "istimestamp":True, //表示提取到的结果为时间戳，需转化成时间字符串，默认不启用
+        "format": "date" //表示转化成YYYYMmdd格式
+      },
+      "project_code": {   //字段提取，项目编号，字段名不可变
+        "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+        "value": "//ul[@class='info_list2']/li/textall()", //提取表达式
+        "isclean": True, //表示是否清除空格
+        "isbalance": True, //表示是否检测括号对称性，去除第一个不符合对称性的括号及后面的字符串，支持() [] {} 【】 （）
+        "isnull": True  //表示该字段可以为空值
+        },
+      "notice_type": {
+      "type": "xpath", //字段提取方式，xpath/jsonpath/regex/const(常量)
+      "value": "//ul[@class='info_list2']/li/textall()", //提取表达式
+      "ismulti": True,  //表示提取结果根据其他字段提取情况设置相同数量的字段列表
+      }
+    },
+    "attachment": {  //附件提取
+    "enable": True, //表示是否下载附件
+      "mode": "REQUESTS", //请求模式
+      "headers": { //请求头，可选，根据实际情况添加
+            },
+      "iframe": {   //提取附件iframe网页URL，字段名不可变，附件可能存在iframe页面里，如果不在，该字段就不需要，会自动访问iframe页面URL，后面字段提取基于iframe页面
+          "isnull": True,
+          "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+          "value": "(//div[contains(@class,'f-detail1')]//iframe/@src | //div[contains(@class,'f-detail1')]//a/@href)[1]" //提取表达式
+      },
+      "click": {   //附件可能需要点击才能获取到URL和文件名，如果这样就不需要fields字段提取,如果配置该字段则详情请求模式mode为SELENIUM
+          "isnull": True,
+          "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+          "value": "(//div[contains(@class,'f-detail1')]//iframe/@src | //div[contains(@class,'f-detail1')]//a/@href)[1]" //提取表达式
+      },
+      "attach":{ //附件列表单独获取，如果详情无法解析到附件列表且走单独请求方可获取到，启用该功能
+          "url":"https://ggzy.yn.gov.cn/ynggfwpt-home-api/u/file/queryAttachmentList?xx=${xxxx}", //获取附件文件名和链接的请求链接中${xxxx}需要替换，替换来源字段通过fields配置响应提取字段实现
+          "mode": "REQUESTS", //请求模式，REUQESTS表示静态请求，SELENIUM表示模拟浏览器
+        "method": "GET", //请求方法
+        "captcha": {  //验证码配置或者进行字段解析前必要请求，支持list、detail、attachment部分进行配置，具体配置详见下方
+        }，
+        "headers": {
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+        },
+        "fields": { //字段提取，提取信息来源详情结果，提取字段值替换附件请求中的参数
+        "content": {   //字段提取，详情内容，字段名不可变，不可为空
+          "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+          "value": "//ul[@class='info_list2']/li" //提取表达式
+          },
+        "publish_dept": {}
+        },
+
+      },
+      "captcha": { //验证码配置或者进行字段解析前必要请求，支持list、detail、attachment部分进行配置
+          "enable": True,  //是否启动验证码,默认启动
+      "startcheck":"xxxxx",  //检测URL或者详情响应是否存在标识内容，如果存在进入验证码流程
+          "steps": [  //验证码破解和结果获取等流程，按顺序执行
+              {
+                  "name": "init_page",  //流程名字
+                  "method": "GET", //请求模式
+                  "url": "${list_url}",   //请求URL，${XXX}中参数XXX表示进入当前流程前提取到的字段名，请求之前会进行递归循环替换 ${XXX} 格式的变量，其中list_url字段名不可变，表示进入验证码流程前获取到的URL（如验证码配置在附件配置中，则list_url为提取到的附件URL），captcha_code字段名不可变，表示验证码识别结果，img_str字段名不可变，表示背景图片base64编码字符串，small_img_str字段名不可变，表示滑块图片base64编码字符串，y_pos字段名不可变，表示背景图片缺口Y坐标，img_height字段名不可变，表示缩放背景图片的高度，img_width字段名不可变，表示缩放背景图片的宽度
+            "issave":False, //是否固证，只有list和detail获取结果或者单独请求获取附件列表配置部分默认固证，其他部分不固证
+            "headers": {  //请求头，如果出现${XXX}，请求之前会进行递归循环替换 ${XXX} 格式的变量
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+                "Accept-Encoding": "gzip, deflate",
+                "Accept-Language": "zh-CN,zh;q=0.9",
+                "Host": "www.ccgp-tianjin.gov.cn",
+                "Upgrade-Insecure-Requests": "1",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+            },
+          "fields": {
+              "verificationCodeGuid": {  //字段提取（用于验证码流程后续请求），这个可自定义字段名，不可为captcha_code、small_img_str、y_pos、img_height等常用字段名, 如果图片在响应json里且为base64，需要新增img_str字段名提取
+                  "type": "jsonpath", //提取规则
+                  "value": "$.custom.imgCode"  //提取表达式
+              }
+          },
+              },
+        {
+            "name": "get_image",
+            "method": "GET",
+            "issave": False, //是否固证，只有list和detail获取结果或者单独请求获取附件列表配置部分默认固证，其他部分不固证
+            "url": "http://www.ccgp-tianjin.gov.cn/commons/image.jsp",
+            "headers": {
+                "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+                "Accept-Encoding": "gzip, deflate",
+                "Accept-Language": "zh-CN,zh;q=0.9",
+                "Host": "www.ccgp-tianjin.gov.cn",
+                "Referer": "${list_url}",
+                      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+                  },
+                  "captcha_config": { //验证码类型配置
+                      "type": "math",  //验证码类型  abc_num表示识别字母和数字，math表示数值计算，multi_slide表示缺口滑块识别（无需自定义Y坐标，获取验证码会返回Y坐标），block_puzzle表示缺口滑块识别（自定义Y坐标）
+                      "length": 4,  //验证码长度
+                      "iscase": False,  //是否区分大小写
+                  },
+        "respheaders": ["captcha-uuid"],  //需要提取响应头返回的参数，如captcha-uuid，用于后续请求替换变量
+                  "response_type": "image",  //image表示返回图片二进制流，base64表示图片base64，json表示图片在json中，file表示文件
+        "encrypt":[{"type":"aes","key":"${secretKey}","iv":"","mode":1,"padding":"pkcs7","value":'{"x":${captcha_code},"y":5}'}],  //验证码识别结果加密，value为加密原字符串，${secretKey}为前置请求中提取的变量值替换，${captcha_code}表示验证码识别后的结果替换
+              },
+              {
+                  "name": "get_file",
+                  "method": "GET",
+                  "url": "http://www.ccgp-tianjin.gov.cn/portal/documentView.do?imageString=${captcha_code}&method=downNewFiles&verificationCodeGuid=${verificationCodeGuid}",  //${captcha_code}表示验证码识别结果替换，字段名不可变, ${verificationCodeGuid}表示前面流程提取到的字段替换
+            "issave": False, //是否固证，只有list和detail获取结果或者单独请求获取附件列表配置部分默认固证，其他部分不固证，不配置该字段表示固证
+            "isredirect": False,  //是否重定向
+                  "check_success":"\"message\":\"\"",  //通过检测响应体内容来判断提交验证码是否验证成功
+                 "check_fail":"验证码验证失败",  //通过检测响应体内容来判断提交验证码是否验证失败
+            "headers": {  //请求头
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+                "Accept-Encoding": "gzip, deflate",
+                "Accept-Language": "zh-CN,zh;q=0.9",
+                "Host": "www.ccgp-tianjin.gov.cn",
+                "Upgrade-Insecure-Requests": "1",
+                "Referer": "${list_url}",
+                      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+                  },
+                  "response_type": "file",  //响应返回内容类型，image表示返回图片二进制流，json表示图片以base64格式在json中，file表示文件,list表示列表信息
+              },
+          ],
+      },
+      "fields": { //字段名可增删，但是需要同步给汪盼和业务相关人
+      "url": {   //字段提取，附件URL，字段名不可变，如果附件存在于iframe网页, 则提取规则在iframe网页里
+        "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+        "value": "//ul[@class='info_list2']/li", //提取表达式
+          "extra": { //额外字段提取
+              "fileserice": { //字段名，可自定义
+                  "type": "jsonpath",   //字段提取方式，xpath/jsonpath/regex
+                  "value": "$.data.list[*].fileServiceId", //提取表达式
+              }
+          },
+          "ifelse":["'${fileserice}'=='old'","https://ggzy.hzctc.hangzhou.gov.cn:20001/UService/DownLoadFile.aspx?dirtype=3&filepath=${url}","https://ggzy.hzctc.hangzhou.gov.cn/api/file/download/${fileserice}"], //根据规则列表自动生成最终URL，一种判断条件则规则为三元素列表 [条件, 真URL, 假URL] ，如果存在多个条件判断，则规则为[[条件1, URL1], [条件2, URL2], ..., 默认URL]
+        "prepath":True //用于补全链接url，功能与python的urllib.parse.urljoin函数一样
+        },
+      "name": {   //字段提取，附件名，字段名不可变，如果附件存在于iframe网页, 则提取规则在iframe网页里
+        "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+        "value": "//ul[@class='info_list2']/li", //提取表达式
+        "ishtml": True,  //表示提取到的URL下载的文件为html文件
+        "isnull": True  //表示该字段可以为空值
+        },
+        "size": {   //字段提取，附件大小，字段名不可变，如果附件存在于iframe网页, 则提取规则在iframe网页里，该字段提取到的值大于初始设置文件大小阈值，则该文件不下载
+          "type": "xpath", //字段提取方式，xpath/jsonpath/regex
+          "value": "//ul[@class='info_list2']/li", //提取表达式
+          "isnull": True  //表示该字段可以为空值
+          }
+          }
+      }
+     }
+  },
+  "pagination": { //翻页
+    "url": "https://XXXXXXX/XXXXX/XXXXX_${page_param}.html?XXXX=${__VIEWSTATE}", //${page_param} 表示翻页URL页码变量，后面做替换 ,${page_param}默认固定写法，如果存在结合起止时间查询，需要配置起止时间变量${starttime}和${endtime},${__VIEWSTATE}表示额外提取翻页变量，如果翻页需要截止索引且该字段值需要计算，则书写为@calc:{表达式},表达式需要页码，则可以书写成如@calc:{${page_param}+44}形式
+    "headers": {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+    },
+    "enable": True, //表示是否翻页，True表示翻页，False表示不翻页
+    "max_page": 5, //表示最大翻页数，无该字段表示不限制最大翻页数
+    "extra":{  //翻页URL额外变量提取
+        "__VIEWSTATE":{
+            "type": "xpath",
+            "value": "//input[@id='__VIEWSTATE']/@value",
+        },
+        "__EVENTVALIDATION": {
+            "type":"xpath",
+            "value":"//input[@id='__EVENTVALIDATION']/@value",
+        },
+    },
+    "page_param": {  //该字段名不可改动
+    "current": 0, //表示当前URL页码数，默认为首页URL中页码数
+    "start": 0, //表示首页URL中页码数
+    "step":1,  //翻页步长
+    "offset":1,  //多步长的起始位置偏移量
+    "total": { //表示总页码数，和数据记录总量、下一页翻页必须存在一个
+      "type": "regex", //字段提取方式，xpath/jsonpath/regex
+      "value": "total:\\s*'(\\d+)'" //提取表达式
+      },
+      "count": { //表示数据记录总量，和总页码数、下一页翻页必须存在一个
+        "type": "regex",
+        "value": "count:\\s*'(\\d+)'"
+      },
+      "next": { //表示下一页翻页，如果存在提取结果就下一页，否则终止下一页翻页，和总页码、数据记录总量数必须存在一个
+          "type": "xpath",
+          "value": "(//div[@class='pager']//li[contains(@class,'ewb-page-li') and contains(@class,'current')]/following-sibling::li[1]/a[@href])[last()]",
+      }
+      "per_num": 10, //表示每页数据记录量
+    }
+  },
