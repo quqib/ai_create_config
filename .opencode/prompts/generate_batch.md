@@ -1,149 +1,70 @@
-# 批量配置生成任务
-
-
-使用：
-
-crawler-config-batch skill
-
-
-
-目标网站：
-
-{{website}}
-
-
-
-任务：
-
-
-分析整个网站。
-
-
-自动发现所有公告分类。
-
-
-例如：
-
-
-- 采购公告
-
-- 更正公告
-
-- 中标公告
-
-- 成交公告
-
-- 合同公告
-
-
-
-然后：
-
-针对每个分类生成独立 DSL。
-
-
 
 ---
 
-# 工作流程
+# 📁 ③ generate_batch.md（批量生成器）
 
+```markdown
+# BATCH DSL GENERATION
 
-## Step 1
+---
 
-分析网站。
+## INPUT
 
+config directory:
+config/
 
-找到：
+---
 
-category列表。
+## TASK
 
+遍历 config 中所有网站配置
 
+对每个网站执行：
 
-## Step 2
+1. analyze_site
+2. generate_single
 
-遍历每个category。
+---
 
+## OUTPUT
 
-分析：
-
-- list URL
-
-- API
-
-- 参数
-
-- 分页
-
-- detail URL
-
-
-
-## Step 3
-
-生成配置。
-
-
-保存：
-
+每个网站生成独立目录：
 
 result/{{site}}/
 
+---
 
-例如：
+## FILE STRUCTURE
 
-
-result/anhui/
-
-
-    purchase.json
-
-    change.json
-
-    result.json
-
-    contract.json
-
-
+result/
+   hainan/
+      purchase.py
+      contract.py
+   anhui/
+      purchase.py
 
 ---
 
-# 规则
+## EXECUTION RULES
 
+### 必须顺序执行
+- 不能并发跳过
+- 不能遗漏网站
 
-当前：
+### 失败处理
 
-captcha=false
+如果失败：
 
+写入：
 
-
-不要：
-
-- 写代码
-
-- 修改爬虫框架
-
-- 处理验证码
-
-
-
-如果遇到：
-
-验证码
-
-输出：
-
-captcha_required.md
-
+result/_errors.log
 
 ---
 
-# 最终输出
+## STRICT MODE
 
+禁止：
 
-生成：
-
-1. 配置文件
-
-2. 分析报告
-
-3. 未解决问题列表
+- 合并网站
+- 跳过分析
+- 跳过生成

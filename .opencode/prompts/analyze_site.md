@@ -1,127 +1,97 @@
-# 网站分析任务
+# SITE ANALYSIS (STRUCTURE EXTRACTION)
 
+---
 
-## 目标
+## INPUT
 
-
-分析一个政府采购网站。
-
-
-输入网站：
-
+website:
 {{website}}
 
+---
 
+## OUTPUT MODE
 
-## 分析内容
+仅输出结构信息（禁止 DSL / Python / JSON）
 
+输出必须用于 generate_single.md
 
-请分析：
+---
 
+## ANALYSIS TARGET
 
-# 1. 网站结构
+必须提取：
 
+### 1. 页面结构
+- list page
+- detail page
+- category page
 
-包括：
+---
 
-- 首页
-- 分类页
-- 列表页
-- 详情页
-
-
-
-# 2. 数据来源
-
-
+### 2. 数据来源
 判断：
-
-是否存在：
-
 - REST API
-- JSON接口
-- GraphQL
-- HTML渲染
+- JSON API
+- HTML
+- JS rendering (only detect, not execute)
 
+---
 
-如果存在 API:
-
-输出：
-
-URL
-
-Method
-
-参数
-
-返回结构
-
-
-
-# 3. 分类分析
-
-
-寻找：
-
-- 采购公告
-- 更正公告
-- 中标公告
-- 合同公告
-
-
-输出：
-
-分类名称
-
-分类编码
-
-入口地址
-
-
-
-# 4. 分页分析
-
-
-确定：
-
-分页方式：
-
-- page
-- size
-- offset
-- cursor
-
-
-
-# 5. 字段分析
-
-
-列表字段：
-
-- 标题
-- 时间
+### 3. 列表规则
 - URL
+- method
+- params
+- headers
+- pagination mode
 
+---
 
+### 4. 详情规则
+- detail URL pattern
+- content selector (xpath / css)
+- fields mapping clues
 
-详情字段：
+---
 
-- 项目名称
-- 采购单位
-- 金额
-- 发布时间
-- 内容
+### 5. 分类信息
+- name
+- code
+- url
 
+---
 
-# 输出
+### 6. CAPTCHA检测
+- 是否存在验证码
+- 类型（image / slider / login）
 
+---
 
-输出分析报告：
+## OUTPUT FORMAT（关键）
 
-analysis/{{site}}.md
+输出必须是**结构化文本（非JSON）**，例如：
 
+LIST_URL:
+DETAIL_URL:
+PAGINATION:
+FIELDS_HINT:
+API_HINT:
+CAPTCHA:
 
+---
 
-不要生成配置。
+## OUTPUT RULE
 
-当前阶段只分析。
+禁止：
+
+- JSON
+- Python
+- DSL
+- 解释性段落
+
+---
+
+## SAVE RULE
+
+保存到：
+
+analysis/{{site}}.txt

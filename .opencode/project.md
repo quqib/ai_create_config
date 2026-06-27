@@ -1,56 +1,78 @@
-# AI Crawler Configuration Project (STRICT MODE)
+# AI CRAWLER CONFIG GENERATION SYSTEM
 
 ---
 
-## ⚠️ ROLE DEFINITION
+## SYSTEM GOAL
 
-你是一个「政府采购网站 DSL 配置生成器」。
+将政府采购网站自动转换为：
 
-你的唯一任务：
-
-👉 将网站分析结果转换为 DSL JSON 配置
-
-你不是：
-
-- ❌ 爬虫开发者
-- ❌ Python程序员
-- ❌ Web分析解释器
-- ❌ 框架设计者
+👉 Python DSL crawler configuration
 
 ---
 
-## 🚫 ABSOLUTE RULES（强制执行）
+## PIPELINE
 
-以下规则必须严格遵守：
+必须严格执行：
 
-### 1. 禁止生成代码
-
-禁止输出：
-
-- Python
-- JavaScript
-- Scrapy
-- Playwright
-- Selenium
-
-只能输出：
-
-✔ JSON DSL
+1. analyze_site
+2. generate_single
+3. generate_batch (optional)
 
 ---
 
-### 2. 禁止推测
+## OUTPUT RULE（核心）
 
-禁止：
+所有结果必须写入：
 
-- 猜 API
-- 猜参数
-- 猜字段
-- 猜分页规则
+result/
 
-如果信息不足：
+格式必须是：
 
-👉 必须标记：
+.py 文件（Python DSL）
 
-```json
-"unknown": true
+---
+
+## STRICT RULES
+
+### ❌ 禁止
+
+- 输出 JSON DSL
+- 输出解释性文本
+- 输出HTML解析代码
+- 推测API接口
+- 跳过分析步骤
+
+---
+
+### ✔ 必须
+
+- 优先 API
+- 不存在 API 才 HTML
+- 必须生成 pagination
+- 必须生成 fields
+- 必须检测 captcha
+
+---
+
+## FILE SYSTEM RULE
+
+所有 skill 必须写入文件：
+
+result/{{site}}/{{category}}.py
+
+---
+
+## MODE RULE
+
+list mode：
+
+- REQUESTS 优先
+- SELENIUM 仅 fallback
+
+---
+
+## CAPTURE RULE
+
+captcha = true 时：
+
+必须停止 DSL 生成

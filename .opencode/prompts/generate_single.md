@@ -1,98 +1,72 @@
-# 单配置生成任务
+# PYTHON DSL GENERATION (SINGLE SITE)
 
+---
 
-使用：
+## INPUT
 
-crawler-config-basic skill
-
-
-网站：
-
+website:
 {{website}}
 
-
-公告类型：
-
+category:
 {{category}}
 
+analysis:
+{{analysis}}
 
+---
 
-任务：
+## OBJECTIVE
 
+生成可执行 Python DSL 配置文件
 
-根据网站分析结果生成一个 DSL 配置。
+---
 
+## OUTPUT FORMAT（必须严格遵守）
 
-要求：
+必须生成：
 
+result/{{site}}/{{category}}.py
 
-## 分析
+---
 
+## PYTHON DSL STRUCTURE（强制）
 
-确认：
+必须生成如下结构：
 
-1. 列表入口
+```python
+configure = {
+    "name": "",
+    "site": "",
+    "entranceUrl": "",
 
-2. 请求方式
+    "list": {
+        "url": "",
+        "method": "GET",
+        "params": {},
+        "headers": {},
+        "mode": "REQUESTS"   # or SELENIUM
+    },
 
-3. 请求参数
+    "detail": {
+        "url_rule": "",
+        "fields": {
+            "title": "",
+            "publish_time": "",
+            "content": "",
+            "source_url": ""
+        }
+    },
 
-4. 分页规则
+    "pagination": {
+        "type": "page|offset|cursor",
+        "page_param": "",
+        "size_param": ""
+    },
 
-5. 详情页规则
+    "captcha": {
+        "enabled": false,
+        "type": ""
+    },
 
-6. 字段映射
-
-
-
-## 生成
-
-
-生成：
-
-result/{{site}}/{{category}}.json
-
-
-
-配置必须包含：
-
-
-- entranceUrl
-
-- list
-
-- detail
-
-- pagination
-
-- fields
-
-
-
-## 限制
-
-
-当前网站：
-
-captcha=false
-
-
-
-不要处理：
-
-- 验证码
-- 登录
-- JS逆向
-
-
-
-如果发现：
-
-验证码
-
-输出：
-
-needCaptcha=true
-
-
-不要绕过。
+    "unknown": false
+}
