@@ -1,23 +1,20 @@
-def a(b=10):
-    # 1. 增加终止条件：当 b 小于等于 1 时，停止递归
-    if b <= 1:
-        return
+from openai import OpenAI
 
-    for i in range(1, b):
-        print("lll")
-        if i == 1:
-            print("gggg")
-        else:
-            # 2. 将 b 减 1 后的结果作为参数传递给下一次递归
-            a(b - 1)
+client = OpenAI(
+  base_url = "https://integrate.api.nvidia.com/v1",
+  api_key = "$NVIDIA_API_KEY"
+)
 
+completion = client.chat.completions.create(
+  model="openai/gpt-oss-20b",
+  messages=[{"role":"user","content":""}],
+  temperature=1,
+  top_p=1,
+  max_tokens=4096,
+  stream=False
+)
 
-
-
-# ctrl+shift+e的演示
-c = 10
-print(c)
-b = 20
-print(b)
-
-
+reasoning = getattr(completion.choices[0].message, "reasoning_content", None)
+if reasoning:
+  print(reasoning)
+print(completion.choices[0].message.content)
