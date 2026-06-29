@@ -1,0 +1,39 @@
+site:
+
+  name: hainan
+
+  url: https://ggzy.hainan.gov.cn/
+
+
+  province: 海南
+
+
+  org_id: 460000
+
+
+
+task:
+
+
+  mode: auto
+
+
+  discover_category: true
+
+
+  generate_all: true
+
+
+
+output:
+
+  dir: result/hainan
+
+
+
+rules:
+
+
+  captcha: false
+
+  api_first: true

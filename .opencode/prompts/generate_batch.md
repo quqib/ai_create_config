@@ -1,70 +1,76 @@
-
----
-
-# 📁 ③ generate_batch.md（批量生成器）
-
 ```markdown
-# BATCH DSL GENERATION
+# Batch Generate Config
 
----
 
-## INPUT
+目标：
 
-config directory:
+批量生成Python DSL配置。
+
+
+
+输入：
+
 config/
 
----
 
-## TASK
 
-遍历 config 中所有网站配置
+流程：
 
-对每个网站执行：
 
-1. analyze_site
-2. generate_single
+for each python config:
 
----
+    analyze_site
 
-## OUTPUT
+    generate_single
 
-每个网站生成独立目录：
 
-result/{{site}}/
 
 ---
 
-## FILE STRUCTURE
+# Output
+
+
+保存：
+
+
+result/{site}/
+
+
+
+例如：
 
 result/
-   hainan/
-      purchase.py
-      contract.py
-   anhui/
-      purchase.py
+
+    hainan/
+
+        government_purchase.py
+
+
 
 ---
 
-## EXECUTION RULES
+# Rules
 
-### 必须顺序执行
-- 不能并发跳过
-- 不能遗漏网站
 
-### 失败处理
+1.
 
-如果失败：
+不要修改config
 
-写入：
 
-result/_errors.log
+2.
 
----
+失败记录：
 
-## STRICT MODE
+analysis/error.log
 
-禁止：
 
-- 合并网站
-- 跳过分析
-- 跳过生成
+3.
+
+每个网站独立目录
+
+
+4.
+
+生成文件必须可以import
+
+

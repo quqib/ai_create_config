@@ -1,72 +1,43 @@
-# PYTHON DSL GENERATION (SINGLE SITE)
+任务：
 
----
+根据 analysis 文件生成所有业务配置。
 
-## INPUT
 
-website:
-{{website}}
 
-category:
-{{category}}
+输入：
 
-analysis:
-{{analysis}}
+analysis/{site}.md
 
----
 
-## OBJECTIVE
 
-生成可执行 Python DSL 配置文件
+要求：
 
----
 
-## OUTPUT FORMAT（必须严格遵守）
+针对每个一级分类：
 
-必须生成：
+生成独立目录。
 
-result/{{site}}/{{category}}.py
 
----
+例如：
 
-## PYTHON DSL STRUCTURE（强制）
 
-必须生成如下结构：
+result/hainan/
 
-```python
-configure = {
-    "name": "",
-    "site": "",
-    "entranceUrl": "",
 
-    "list": {
-        "url": "",
-        "method": "GET",
-        "params": {},
-        "headers": {},
-        "mode": "REQUESTS"   # or SELENIUM
-    },
+    government_purchase/
 
-    "detail": {
-        "url_rule": "",
-        "fields": {
-            "title": "",
-            "publish_time": "",
-            "content": "",
-            "source_url": ""
-        }
-    },
+        caigougonggao.py
 
-    "pagination": {
-        "type": "page|offset|cursor",
-        "page_param": "",
-        "size_param": ""
-    },
+        chengjiaogonggao.py
 
-    "captcha": {
-        "enabled": false,
-        "type": ""
-    },
 
-    "unknown": false
-}
+
+    engineering/
+
+        zhaobiaogonggao.py
+
+
+    property_trade/
+
+        chengjiao.py
+

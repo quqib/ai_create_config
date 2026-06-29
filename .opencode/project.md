@@ -1,78 +1,166 @@
-# AI CRAWLER CONFIG GENERATION SYSTEM
+# AI Crawler Config Generator
+
+
+## Project Goal
+
+本项目用于自动生成政府采购网站 Python DSL 配置。
+
+
+输入：
+
+- 网站URL
+
+
+输出：
+
+Python配置文件：
+
+result/{site}/{category}.py
+
+
+生成文件必须可以直接被Python import执行。
+
 
 ---
 
-## SYSTEM GOAL
+# Important
 
-将政府采购网站自动转换为：
+生成目标不是JSON。
 
-👉 Python DSL crawler configuration
+禁止生成：
+
+- json配置
+- markdown配置
+- python爬虫代码
+
+
+必须生成：
+
+Python dict DSL
+
 
 ---
 
-## PIPELINE
+# Pipeline
 
-必须严格执行：
+
+所有任务必须按照：
+
 
 1. analyze_site
+
+网站结构分析
+
+
 2. generate_single
-3. generate_batch (optional)
+
+生成单个Python DSL
+
+
+3. generate_batch
+
+批量生成
+
+
+
+禁止跳过分析直接生成。
+
 
 ---
 
-## OUTPUT RULE（核心）
+# Output Rule
 
-所有结果必须写入：
+
+所有结果必须保存：
+
 
 result/
 
-格式必须是：
 
-.py 文件（Python DSL）
+例如：
 
----
+result/
 
-## STRICT RULES
+    hainan/
 
-### ❌ 禁止
+        government_purchase.py
 
-- 输出 JSON DSL
-- 输出解释性文本
-- 输出HTML解析代码
-- 推测API接口
-- 跳过分析步骤
 
----
 
-### ✔ 必须
+禁止只在聊天窗口输出代码。
 
-- 优先 API
-- 不存在 API 才 HTML
-- 必须生成 pagination
-- 必须生成 fields
-- 必须检测 captcha
+
 
 ---
 
-## FILE SYSTEM RULE
+# DSL Requirement
 
-所有 skill 必须写入文件：
 
-result/{{site}}/{{category}}.py
+生成结构必须参考：
+
+config目录中的示例Python文件。
+
+
+包括：
+
+- configure
+- entrance_url
+
+
+结构必须兼容现有执行框架。
+
+
 
 ---
 
-## MODE RULE
+# Analysis Rule
 
-list mode：
 
-- REQUESTS 优先
-- SELENIUM 仅 fallback
+分析阶段必须确认：
+
+- list接口
+- detail接口
+- pagination
+- fields
+- headers
+- params
+- mode
+
+
 
 ---
 
-## CAPTURE RULE
+# Request Mode
 
-captcha = true 时：
 
-必须停止 DSL 生成
+优先：
+
+REQUESTS
+
+
+只有无法获取数据：
+
+才使用：
+
+SELENIUM
+
+
+---
+
+# Captcha
+
+
+如果发现：
+
+- 登录
+- 验证码
+- token动态生成
+
+
+标记：
+
+captcha=True
+
+
+不要绕过。
+
