@@ -92,8 +92,15 @@ size=@json:10
 - 第一页真实请求
 - 完整参数
 - 完整 DSL
+**示例（海南政府采购 采购公告）**：
+
+```python
+entrance_url = "https://ggzy.hainan.gov.cn/inteligentsearch/rest/esinteligentsearch/getFullTextDataNewM@$pn=0&rn=10&cnum=001&fields=title&sort=@json:{\"webdate\":\"0\"}&condition=@json:[{\"fieldName\":\"categorynum\",\"equal\":\"003002002\",\"isLike\":true,\"likeType\":2}]&time=@json:[{\"fieldName\":\"webdate\",\"startTime\":\"1970-01-01 00:00:00\",\"endTime\":\"2999-12-31 23:59:59\"}]"
+```
 
 禁止任何修改
+
+**注意**：对数组或对象等复杂参数，如 `condition`、`time`、`sort`，使用 `@json:` 前缀，并保持原始 JSON，不进行 URL 编码。数值字段（如 `pn`、`rn`）不需要 `@json:`。
 
 ----------------------------------------
 
@@ -117,7 +124,7 @@ pagination.url 必须满足：
 
 ✔ 正确：
 
-/list?page=${page_param}
+https://ggzy.hainan.gov.cn/inteligentsearch/rest/esinteligentsearch/getFullTextDataNewM@$pn=${page_param}&rn=10&cnum=001&fields=title&sort=@json:{\"webdate\":\"0\"}&condition=@json:[{\"fieldName\":\"categorynum\",\"equal\":\"003002002\",\"isLike\":true,\"likeType\":2}]&time=@json:[{\"fieldName\":\"webdate\",\"startTime\":\"1970-01-01 00:00:00\",\"endTime\":\"2999-12-31 23:59:59\"}]
 
 必须满足：
 

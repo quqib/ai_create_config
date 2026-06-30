@@ -2,7 +2,7 @@ from base import *
 
 
 # from config.chengjiaogonggao import *
-from result.hainan.biangenggonggao_gcs import *
+from result.hainan.caigougonggao import *
 
 
 

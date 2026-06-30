@@ -15,7 +15,7 @@ analysis/{site}.md
 
 针对每个一级分类：
 
-生成独立目录。
+  直接在 `result/{site}/` 目录下生成平铺的 `<category>.py` 文件（不创建子目录）。
 
 
 例如：

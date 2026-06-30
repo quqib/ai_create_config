@@ -93,7 +93,7 @@ SELENIUM
 应该生成：
 
 
-government_purchase/
+result/{site}/
 
     caigougonggao.py
 
@@ -106,7 +106,7 @@ government_purchase/
 禁止生成：
 
 
-government_purchase.py
+government_purchase.py（合并所有类型的单一文件）
 
 
 
@@ -130,27 +130,19 @@ government_purchase.py
         区县
 
 
-必须保留目录结构。
+仍然采用平铺结构，所有配置文件放在 result/{site}/ 目录下，每个公告类型对应单独的 .py 文件。
 
 
 例如：
 
-
-result/
-
-    hainan/
-
-        hainan_city/
-
-            government_purchase/
-
-                bidding_notice.py
-
-
+result/{site}/
+    caigougonggao.py
+    zhongbiaogonggao.py
+    hetonggonggao.py
 
 禁止：
 
-把所有配置放在一个目录。
+把所有配置放在一个目录（如 result/{site}/all.py）。
 
 
 ---
@@ -325,21 +317,13 @@ TODO
 
 所有结果保存：
 
-result/
+result/{site}/
+    caigougonggao.py
+    zhongbiaogonggao.py
+    hetonggonggao.py
 
 
-格式：
 
-
-result/
-
-    province/
-
-        city/
-
-            category/
-
-                notice_type.py
 
 
 
@@ -350,9 +334,9 @@ result/
 
     hainan/
 
-        hainan_city/
+        hainan_
 
-            government_purchase/
+            result/{site}/
 
                 bidding_notice.py
 

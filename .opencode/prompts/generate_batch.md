@@ -33,7 +33,7 @@ for each python config:
 保存：
 
 
-result/{site}/
+result/{site}/  （只文件，不创建子目录）
 
 
 
